@@ -1,0 +1,98 @@
+From 6574e838fd5805cb415f9728534c889a824c732b Mon Sep 17 00:00:00 2001
+From: hzq <hzq@t-firefly.com>
+Date: Tue, 20 Mar 2018 15:43:31 +0800
+Subject: [PATCH] [media] rc/keymaps: add keytable for ROC-RK3328-CC Remote
+ Controller
+
+---
+ drivers/media/rc/keymaps/Makefile    |  1 +
+ drivers/media/rc/keymaps/rc-roc-cc.c | 52 ++++++++++++++++++++++++++++++++++++
+ include/media/rc-map.h               |  1 +
+ 3 files changed, 54 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-roc-cc.c
+
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 6504810..b743914 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -83,6 +83,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-rc6-mce.o \
+ 			rc-real-audio-220-32-keys.o \
+ 			rc-reddo.o \
++			rc-roc-cc.o \
+ 			rc-snapstream-firefly.o \
+ 			rc-streamzap.o \
+ 			rc-tbs-nec.o \
+diff --git a/drivers/media/rc/keymaps/rc-roc-cc.c b/drivers/media/rc/keymaps/rc-roc-cc.c
+new file mode 100644
+index 0000000..3a2a255
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-roc-cc.c
+@@ -0,0 +1,52 @@
++/* Keytable for ROC-RK3328-CC IR Remote Controller
++ *
++ * Copyright (c) 2017 ROC-RK3328-CC
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ */
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++static struct rc_map_table roc_cc[] = {
++	{ 0x28d7, KEY_POWER },
++	{ 0xc837, KEY_MUTE },
++	{ 0xe01f, KEY_ENTER},
++	{ 0xc03f, KEY_UP },
++	{ 0x40bf, KEY_DOWN },
++	{ 0x708f, KEY_LEFT },
++	{ 0x58a7, KEY_RIGHT },
++	{ 0x1ae5, KEY_VOLUMEDOWN },
++	{ 0xd02f, KEY_VOLUMEUP },
++	{ 0x3ac5, KEY_WWW },
++	{ 0x807f, KEY_BACK },
++	{ 0x12ed, KEY_HOME },
++};
++
++static struct rc_map_list roc_cc_map = {
++	.map = {
++		.scan    = roc_cc,
++		.size    = ARRAY_SIZE(roc_cc),
++		.rc_type = RC_TYPE_NEC,
++		.name    = RC_MAP_ROC_CC,
++	}
++};
++
++static int __init init_rc_map_roc_cc(void)
++{
++	return rc_map_register(&roc_cc_map);
++}
++
++static void __exit exit_rc_map_roc_cc(void)
++{
++	rc_map_unregister(&roc_cc_map);
++}
++
++module_init(init_rc_map_roc_cc)
++module_exit(exit_rc_map_roc_cc)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("ROC-RK3328-CC");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 93cac05..8bbe335 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -191,6 +191,7 @@ void rc_map_init(void);
+ #define RC_MAP_RC6_MCE                   "rc-rc6-mce"
+ #define RC_MAP_REAL_AUDIO_220_32_KEYS    "rc-real-audio-220-32-keys"
+ #define RC_MAP_REDDO                     "rc-reddo"
++#define RC_MAP_ROC_CC                    "rc-roc-cc"
+ #define RC_MAP_SNAPSTREAM_FIREFLY        "rc-snapstream-firefly"
+ #define RC_MAP_STREAMZAP                 "rc-streamzap"
+ #define RC_MAP_TBS_NEC                   "rc-tbs-nec"
+-- 
+2.7.4
+
