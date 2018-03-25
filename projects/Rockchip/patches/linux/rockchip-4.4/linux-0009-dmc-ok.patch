@@ -466,14 +466,18 @@ index 5c79dfd..1d57d9a 100644
 -			gpios = <&rk805 1 GPIO_ACTIVE_LOW>;
 +		standby-led {
 +			gpios = <&rk805 0 GPIO_ACTIVE_LOW>;
- 			linux,default-trigger = "heartbeat";
+ 			linux,default-trigger = "none";
++            default-state = "off";
++            mode = <0x05>;    
  		};
  
 -		user {
 -			gpios = <&rk805 0 GPIO_ACTIVE_LOW>;
 +		power-led {
 +			gpios = <&rk805 1 GPIO_ACTIVE_LOW>;
- 			linux,default-trigger = "mmc0";
+ 			linux,default-trigger = "none";
++            default-state = "on";
++            mode = <0x23>    
  		};
  	};
 @@ -120,36 +184,11 @@
